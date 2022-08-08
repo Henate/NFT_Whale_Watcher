@@ -5,6 +5,22 @@ const serverUrl = "https://8tinxmhoislf.usemoralis.com:2053/server";
 const appId = "DnnTLI7V7MIGLE6ZdfeXvocDjegVGecmH6pxczq2";
 const contractAddress = "0xBC4CA0EdA7647A8aB7C2061c2E118A18a936f13D"; // Bored Ape Yacht Club
 
+const averageDaySinceBuy = (array) => {
+  let ms;
+
+  if (array.length > 1) {
+    ms =
+      array.reduce((a, b) => new Date(a).getTime() + new Date(b).getTime()) /
+      array.length;
+  } else {
+    ms = new Date(array[0]).getTime();
+  }
+
+  const diff = Math.floor((new Date().getTime() - ms) / 86400000);
+
+  return diff;
+};
+
 async function getAllOwners() {
   await Moralis.start({ serverUrl: serverUrl, appId: appId });
   let cursor = null;
@@ -143,19 +159,14 @@ async function getAllOwners() {
   const jsonContentOwners = JSON.stringify(owners);
   const jsonContentHistory = JSON.stringify(history);
 
-  fs.writeFile(
-    "moonbirdsOwners.json",
-    jsonContentOwners,
-    "utf8",
-    function (err) {
-      if (err) {
-        console.log("An error occured while writing JSON Object to File.");
-        return console.log(err);
-      }
-
-      console.log("JSON file has been saved.");
+  fs.writeFile("BoredApeowner.json", jsonContentOwners, "utf8", function (err) {
+    if (err) {
+      console.log("An error occured while writing JSON Object to File.");
+      return console.log(err);
     }
-  );
+
+    console.log("JSON file has been saved.");
+  });
 
   fs.writeFile(
     "moonbirdsHistory.json",
@@ -171,3 +182,5 @@ async function getAllOwners() {
     }
   );
 }
+
+getAllOwners();
