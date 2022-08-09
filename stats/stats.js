@@ -3,7 +3,33 @@ const Moralis = require("moralis/node");
 const fs = require("fs");
 const serverUrl = "https://8tinxmhoislf.usemoralis.com:2053/server";
 const appId = "DnnTLI7V7MIGLE6ZdfeXvocDjegVGecmH6pxczq2";
-const contractAddress = "0xBC4CA0EdA7647A8aB7C2061c2E118A18a936f13D"; // Bored Ape Yacht Club
+//const contractAddress = "0xBC4CA0EdA7647A8aB7C2061c2E118A18a936f13D"; // Bored Ape Yacht Club
+const contractAddress = "0x23581767a106ae21c074b2276D25e5C3e136a68b"; //Moonbirds
+
+Array.prototype.getUnique = function () {
+  var uniques = [];
+  for (var i = 0, l = this.length; i < l; ++i) {
+    if (this.lastIndexOf(this[i]) == this.indexOf(this[i])) {
+      uniques.push(this[i]);
+    }
+  }
+  return uniques;
+};
+
+const averagePrice = (array) => {
+  const filteredZero = array.filter((item) => item !== 0);
+  const filtered = filteredZero.getUnique();
+
+  if (filtered.length > 1) {
+    return (
+      filtered.reduce((a, b) => Number(a) + Number(b)) / filtered.length / 1e18
+    );
+  } else if (filtered.length === 1) {
+    return filtered[0] / 1e18;
+  } else {
+    return 0;
+  }
+};
 
 const averageDaySinceBuy = (array) => {
   let ms;
@@ -54,7 +80,7 @@ async function getAllOwners() {
     console.log(
       `Got page ${response.page} of ${Math.ceil(
         response.total / response.page_size
-      )}, ${response.total} total`
+      )}, ${response.total} total `
     );
 
     for (const transfer of res.result) {
@@ -154,19 +180,24 @@ async function getAllOwners() {
     }
 
     cursor = res.cursor;
-  } while (cursor != "" && cursor != null);
+  } while ((cursor != "" && cursor != null) || response.page == 8);
 
   const jsonContentOwners = JSON.stringify(owners);
   const jsonContentHistory = JSON.stringify(history);
 
-  fs.writeFile("BoredApeowner.json", jsonContentOwners, "utf8", function (err) {
-    if (err) {
-      console.log("An error occured while writing JSON Object to File.");
-      return console.log(err);
-    }
+  fs.writeFile(
+    "moonbirdsOwner.json",
+    jsonContentOwners,
+    "utf8",
+    function (err) {
+      if (err) {
+        console.log("An error occured while writing JSON Object to File.");
+        return console.log(err);
+      }
 
-    console.log("JSON file has been saved.");
-  });
+      console.log("JSON file has been saved.");
+    }
+  );
 
   fs.writeFile(
     "moonbirdsHistory.json",
