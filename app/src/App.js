@@ -6,13 +6,10 @@ import Home from "./pages/Home";
 import { Routes, Route, Link } from "react-router-dom";
 
 const App = () => {
-  
-  
-
   return (
     <>
       <div className="topBanner">
-        <div>🐳 NFT Whales</div>
+        <div>🐳 NFT 巨鲸监控</div>
         <div className="menu">
           <Link to="/">
             <div className="menuItem">Home</div>
