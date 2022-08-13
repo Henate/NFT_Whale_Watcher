@@ -1,4 +1,6 @@
 //Set Up Moralis API Rate Limits Here
 Moralis.settings.setAPIRateLimit({
-    anonymous:1000, authenticated:2000, windowMs:60000
-  })
+  anonymous: 600000,
+  authenticated: 600000,
+  windowMs: 600000,
+});

@@ -4,7 +4,8 @@ const fs = require("fs");
 const serverUrl = "https://8tinxmhoislf.usemoralis.com:2053/server";
 const appId = "DnnTLI7V7MIGLE6ZdfeXvocDjegVGecmH6pxczq2";
 //const contractAddress = "0xBC4CA0EdA7647A8aB7C2061c2E118A18a936f13D"; // Bored Ape Yacht Club
-const contractAddress = "0x23581767a106ae21c074b2276D25e5C3e136a68b"; //Moonbirds
+//const contractAddress = "0x23581767a106ae21c074b2276D25e5C3e136a68b"; //Moonbirds
+const contractAddress = "0xf57e11e7aa0419d0b2d95538daf846d042dfef51"; //WeakDogs
 
 Array.prototype.getUnique = function () {
   var uniques = [];
@@ -180,27 +181,22 @@ async function getAllOwners() {
     }
 
     cursor = res.cursor;
-  } while ((cursor != "" && cursor != null) || response.page == 8);
+  } while (cursor != "" && cursor != null);
 
   const jsonContentOwners = JSON.stringify(owners);
   const jsonContentHistory = JSON.stringify(history);
 
-  fs.writeFile(
-    "moonbirdsOwner.json",
-    jsonContentOwners,
-    "utf8",
-    function (err) {
-      if (err) {
-        console.log("An error occured while writing JSON Object to File.");
-        return console.log(err);
-      }
-
-      console.log("JSON file has been saved.");
+  fs.writeFile("WeakDogsOwner.json", jsonContentOwners, "utf8", function (err) {
+    if (err) {
+      console.log("An error occured while writing JSON Object to File.");
+      return console.log(err);
     }
-  );
+
+    console.log("JSON file has been saved.");
+  });
 
   fs.writeFile(
-    "moonbirdsHistory.json",
+    "WeakDogsHistory.json",
     jsonContentHistory,
     "utf8",
     function (err) {

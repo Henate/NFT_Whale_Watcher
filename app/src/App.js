@@ -12,9 +12,9 @@ const App = () => {
         <div>🐳 NFT 巨鲸监控</div>
         <div className="menu">
           <Link to="/">
-            <div className="menuItem">Home</div>
+            <div className="menuItem">主页</div>
           </Link>
-          <div>Moralis</div>
+          <div>By Henate</div>
         </div>
       </div>
       <Routes>
